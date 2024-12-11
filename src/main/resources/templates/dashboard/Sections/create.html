@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{dashboard/fragments/head :: head}"></head>
+
+  <body>
+    <!-- Navigation Toggler -->
+    <div th:insert="~{dashboard/fragments/header :: nav-toggler}"></div>
+
+    <!-- Sidebar Navigation -->
+    <div th:insert="~{dashboard/fragments/header :: sidebar-nav}"></div>
+
+    <main class="content">
+      <!-- Profile Navigation -->
+      <div th:insert="~{dashboard/fragments/header :: profile-nav}"></div>
+
+      <!-- Page Header -->
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4"
+      >
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary d-inline-flex align-items-center me-2 dropdown-toggle"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-form"
+          >
+            <svg
+              class="icon icon-xs me-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              ></path>
+            </svg>
+            New
+          </button>
+        </div>
+      </div>
+
+      <!-- Section Table -->
+      <div class="card border-0 shadow mb-4">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded">
+              <thead class="thead-light">
+                <tr>
+                  <th class="border-0 rounded-start">#</th>
+                  <th class="border-0">Name</th>
+                  <th class="border-0">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Section List -->
+                <tr th:each="section, iterStat : ${sections}">
+                  <td>
+                    <a
+                      href="#"
+                      class="text-primary fw-bold"
+                      th:text="${iterStat.count}"
+                      >1</a
+                    >
+                  </td>
+                  <td
+                    class="fw-bold d-flex align-items-center"
+                    th:text="${section.name}"
+                  >
+                    <svg
+                      class="icon icon-xxs text-gray-500 me-2"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </td>
+                  <td>
+                    <span
+                      th:text="${section.description}"
+                      class="text-primary fw-bold"
+                    ></span>
+                  </td>
+                </tr>
+                <!-- End of Section List -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal for Creating Section -->
+      <div
+        class="modal fade"
+        id="modal-form"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="modal-form"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body p-0">
+              <div class="card p-3 p-lg-4">
+                <button
+                  type="button"
+                  class="btn-close ms-auto"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <div class="text-center text-md-center mb-4 mt-md-0">
+                  <h1 class="mb-0 h4">Create Section</h1>
+                </div>
+                <form
+                  th:action="@{/sections/create}"
+                  th:object="${section}"
+                  method="post"
+                >
+                  <!-- Section Name Input -->
+                  <div class="form-group mb-4">
+                    <label for="sectionName">Section Name</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Enter Section Name"
+                        id="sectionName"
+                        name="name"
+                        th:field="*{name}"
+                        autofocus
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Section Description Input -->
+                  <div class="form-group mb-4">
+                    <label for="sectionDescription">Section Description</label>
+                    <div class="input-group">
+                      <textarea
+                        class="form-control"
+                        id="sectionDescription"
+                        name="description"
+                        th:field="*{description}"
+                        placeholder="Enter Section Description"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <!-- Save Button -->
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-gray-800">
+                      Save Section
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of Modal -->
+
+      <!-- Footer -->
+      <footer th:insert="~{dashboard/fragments/footer :: footer}"></footer>
+    </main>
+  </body>
+</html>
